@@ -5,7 +5,7 @@
 </div></div>
 
 <p style="color:white; font-size:20px; text-align:left;">
-    Este jogo foi inspirado nas corridas de fórmula 1 e provas de arrancadas popularmente conhecidas. Neste tipo de esporte os pilotos dos carros precisam estar atentos aos faróis para dar a largada e iniciar a corrida. Neste esporte geralmente os faróis possuem o layout como da imagem acima e a contagem para partida se inicia na horizontal ascendendo cada luz vermelha, a partida é autorizada quando todas as luzes se apagam.
+    Inspirado nas corridas de fórmula 1 e provas de arrancadas popularmente conhecidas, esta aplicação visa emular um medidor de tempo de reação. Neste tipo de esporte os pilotos precisam estar atentos aos faróis para dar a largada e iniciar a corrida. Os faróis, geralmente, possuem o layout como da imagem acima e a contagem para partida é realizada apagando as linhas horizontais de luzes vermelhas, autorizando a partida quando todas as luzes são apagadas e novamente acessas na cor verde.
 </p>
 <p style="color:white; font-size:20px; text-align:left;">
     O <b>Reaction Time Game</b> vem para simular na placa <a href="https://github.com/BitDogLab/BitDogLab" target="_blank">BitDogLab</a> esta etapa inicial presente nos esportes de automobilismo, o jogo visa propor uma disputa entre dois jogadores para ver qual possui melhor tempo de reação. Para este fim foram utilizados os seguintes periféricos presente na placa:
@@ -18,6 +18,9 @@
 </ul>
 <p style="color:white; font-size:20px; text-align:left;">
     A linguagem de programação utilizada foi o Micropython e foi usado o <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> (VSCode) como ambiente de edição dos códigos assim como a extensão <a href="https://github.com/paulober/MicroPico" target="_blank">MicroPico</a> para permitir a interface entre computador e microntrolador.  
+</p>
+<p style="color:white; font-size:20px; text-align:left;">
+    Após a inicialização o matriz de LEDs que simula um farol é acessa totalmente na cor vermelha e, os jogadores fazem a seleção de quem irá jogar primeiro. Este jogador então realiza a sua jogada, pressionando ambos os botões A e B simultaneamente. Em seguida, se inicia o processo de largada, onde cada uma das linhas horizontais horizontais da matriz de LEDs é apagada da primeira à última enquanto o buzzer reproduz um bipe. Após a matriz ser totalmente apagada, é contado um tempo aleatório entre 1 e 5 segundos e a matriz é acessa totalmente na cor verde, sendo iniciada a contagem do tempo de reação, que cessa quando o usuário pressiona ambos os botões A e B novamente. O tempo de reação medido na última jogada de cada um dos jogadores é apresentado no Display OLED. O sistema não limita a quandidade de jogadas, portanto, os jogadores podem permanecer realizando jogadas alternadas ou não de maneira indefinida.  
 </p>
 <h2 style="color:white; font-size:25px; text-align:left;">Fluxo do código</h2>
 <p style="color:white; font-size:20px; text-align:left;">
@@ -38,7 +41,7 @@
         </tr>
         <tr>
             <td><img src="https://github.com/JCARNEIROX/EA801/blob/main/Projeto1/imagens/start.jpg" width="300" height="300"></td>
-            <td><img src="https://github.com/JCARNEIROX/EA801/blob/main/Projeto1/imagens/start.jpg" width="300" height="300"></td>
+            <td><img src="https://github.com/JCARNEIROX/EA801/blob/main/Projeto1/imagens/placar.jpg" width="300" height="300"></td>
         </tr>
     </table>
 </div>
@@ -60,4 +63,11 @@
 
 <p style="color:white; font-size:20px; text-align:left;">
     Conheça mais sobre o projeto e também conheça mais sobre os compnentes da placa assim como tenha acesso a cursos e tutoriais com códigos em <a href="https://bitdoglab.webcontent.website/" target="_blank">BitDogLab.org</a>
+</p>
+
+<h2 style="color:white; font-size:25px; text-align:left;">Autores</h2>
+<p style="color:white; font-size:20px; text-align:left;">
+    João Victor Gomes Carneiro <b>RA:</b> 239738<br>
+    Gustavo Elias da Silva <b>RA:</b> 236236<br>
+    <b> Faculdade de Engenharia Elétrica e Computação (FEEC) </b>
 </p>
