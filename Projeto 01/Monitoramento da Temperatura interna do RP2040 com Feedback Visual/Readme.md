@@ -59,3 +59,6 @@ O código foi detalhadamente comentado para facilitar a compreensão.
 ## Mais Informações
 
 Para mais informações, consulte a [documentação do projeto.](https://docs.google.com/document/d/1q990HYOynV039cwh54jRAVlKUw6xt10uBYHIr-vZLPE/edit?tab=t.0)
+
+## Vídeo
+[Vídeo do YouTube](https://www.youtube.com/watch?v=5nUQNPgy4bA)
