@@ -54,7 +54,7 @@ Para futuros projetos, pretendemos utilizar a conexão Wi-Fi do módulo para exi
 
 ## Código
 
-O código foi comentado para facilitar a compreensão.
+O código foi detalhadamente comentado para facilitar a compreensão.
 
 ## Mais Informações
 
