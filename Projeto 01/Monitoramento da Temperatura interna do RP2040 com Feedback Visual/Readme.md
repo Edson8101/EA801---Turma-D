@@ -59,3 +59,4 @@ O código foi detalhadamente comentado para facilitar a compreensão.
 ## Mais Informações
 
 Para mais informações, consulte a documentação completa do projeto.
+[Documentação do projeto](https://docs.google.com/document/d/1q990HYOynV039cwh54jRAVlKUw6xt10uBYHIr-vZLPE/edit?tab=t.0)
