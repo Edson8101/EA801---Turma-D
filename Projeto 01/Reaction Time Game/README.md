@@ -14,7 +14,7 @@
     <li>Matriz de LEDs</li>
     <li>Display OLED</li>
     <li>Botões A e B</li>
-    <li>BBuzzer</li>
+    <li>Buzzer</li>
 </ul>
 <p style="color:white; font-size:20px; text-align:left;">
     A linguagem de programação utilizada foi o Micropython e foi usado o <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> (VSCode) como ambiente de edição dos códigos assim como a extensão <a href="https://github.com/paulober/MicroPico" target="_blank">MicroPico</a> para permitir a interface entre computador e microntrolador.  
