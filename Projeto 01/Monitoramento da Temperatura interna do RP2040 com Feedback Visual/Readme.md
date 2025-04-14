@@ -46,7 +46,7 @@ A frequência com que o LED pisca aumenta conforme a temperatura se torna mais c
 
 O diagrama abaixo ilustra o fluxo de estados do sistema:
 
-[Diagrama de Estados](projeto 1 maquina de estados.png)
+![Diagrama de Estados](projeto_1_maquina_de_estados.png)
 
 ## Próximos Passos
 
