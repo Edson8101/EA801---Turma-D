@@ -42,8 +42,8 @@ O sistema lê a temperatura do sensor interno do Raspberry Pi Pico W e a convert
 
 A frequência com que o LED pisca aumenta conforme a temperatura se torna mais crítica: 
 * Para a primeira faixa de temperatura (≤ 25 °C) o LED azul fica aceso.
-* Para a faixa de temperatura do meio (25 °C – 28 °C) o LED verde pisca a cada 1 segundo.
-* Para a faixa mais alta, vermelho (> 28 °C) o LED vermelho pisca a cada 250 ms.
+* Para a faixa do meio (25 °C – 28 °C) o LED verde pisca a cada 1 segundo.
+* Para a faixa mais alta (> 28 °C) o LED vermelho pisca a cada 250 ms.
 
 OBS: Os valores das faixas de temperatura podem facilmente serem alteradas no código dependendo das especificidades do projeto em que se deseja monitorar a temperatura interna do RP2040.
 
