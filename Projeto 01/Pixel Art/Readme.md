@@ -50,4 +50,4 @@ O projeto consiste em um catálogo interativo de quatro imagens em estilo pixel 
 4. **Pokebola (Pokeball)**  
 
 ## Vídeo Demonstrativo  
-Assista ao funcionamento do projeto [aqui](https://youtube.com/shorts/QyNCzWLz_c87feature=share).  
+Assista ao funcionamento do projeto [aqui]([https://youtube.com/shorts/QyNCzWLz_c87feature=share]).  
