@@ -20,9 +20,9 @@ OBS: Foi observado que para diferentes versões da BitDogLab as cores do LED RGB
 *   **Conversão de unidades:** Converte a temperatura para Celsius, Fahrenheit e Kelvin.
 *   **Exibição no display OLED:** Mostra as temperaturas nas três unidades de medida.
 *   **Indicação visual com LEDs RGB:**
-    *   Azul para temperatura baixa (≤ 25 °C)
-    *   Verde para temperatura normal (25 °C – 28 °C)
-    *   Vermelho para temperatura alta (> 28 °C)
+    *   Azul para temperatura ≤ 25 °C
+    *   Verde para temperatura 25 °C – 28 °C
+    *   Vermelho para temperatura > 28 °C
 *   **Piscar dos LEDs:** A frequência do piscar aumenta com a criticidade da temperatura.
 
 ## Componentes Utilizados
@@ -36,9 +36,9 @@ OBS: Foi observado que para diferentes versões da BitDogLab as cores do LED RGB
 
 O sistema lê a temperatura do sensor interno do Raspberry Pi Pico W e a converte para as escalas Celsius, Fahrenheit e Kelvin. Um filtro de média móvel exponencial (EMA) é aplicado para suavizar as leituras e reduzir o ruído. As temperaturas são exibidas em um display OLED, e um LED RGB indica a faixa de temperatura (baseado na versão mais recente da BitDogLab):
 
-*   **Azul:** Temperatura baixa (≤ 25 °C)
-*   **Verde:** Temperatura normal (25 °C – 28 °C)
-*   **Vermelho:** Temperatura alta (> 28 °C)
+*   **Azul:** Temperatura ≤ 25 °C
+*   **Verde:** Temperatura 25 °C – 28 °C
+*   **Vermelho:** Temperatura > 28 °C
 
 A frequência com que o LED pisca aumenta conforme a temperatura se torna mais crítica.
 
