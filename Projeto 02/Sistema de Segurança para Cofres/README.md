@@ -1,7 +1,7 @@
 <h1 style="color:white; font-size:30px; text-align:center;">Sistema de Segurança para Cofres</h1>
 
 <p align="center">
-    <img src="https://github.com/JCARNEIROX/EA801/blob/main/Projeto2/imagens/cofre.jpg"
+    <img src="[https://github.com/JCARNEIROX/EA801/blob/main/Projeto2/imagens/cofre.jpg](https://github.com/Edson8101/EA801---Turma-D/blob/main/Projeto%2002/Sistema%20de%20Seguran%C3%A7a%20para%20Cofres/imagens/cofre.jpg)"
     alt="Figura 1">
     ><br>
     <em>Figura 1 - Cofre eletrônico <em>
