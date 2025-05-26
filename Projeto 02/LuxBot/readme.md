@@ -1,4 +1,4 @@
-# Robô Seguidor de Luz Autônomo
+# Robô Seguidor de Luz Autônomo(LuxBot)
 
 ![Badge Status](https://img.shields.io/badge/Status-Concluído-success)
 ![MicroPython](https://img.shields.io/badge/MicroPython-1.19-blue)
