@@ -4,7 +4,7 @@
 ![MicroPython](https://img.shields.io/badge/MicroPython-1.19-blue)
 ![Licença](https://img.shields.io/badge/Licença-MIT-green)
 
-Projeto de um robô autônomo que utiliza um sensor de luz (BH1750) para mapear ambientes, identificar a direção de maior luminosidade e seguir a fonte de luz de forma dinâmica.
+Projeto de um robô autônomo que utiliza sensores de luz (BH1750) para mapear ambientes, identificar a direção de maior luminosidade e seguir a fonte de luz de forma dinâmica.
 
 ---
 
