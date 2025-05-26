@@ -23,7 +23,7 @@ Desenvolver um sistema embarcado capaz de:
 | Componente               | Descrição                                                                 |
 |--------------------------|---------------------------------------------------------------------------|
 | BitDogLab (RPi Pico)     | Placa controladora baseada no Raspberry Pi Pico.                         |
-| Sensor BH1750            | Sensor digital de luminosidade (I2C, 1-65535 lux).                       |
+| 2x Sensor BH1750            | Sensor digital de luminosidade (I2C, 1-65535 lux).                       |
 | Driver L298N             | Driver para controle de motores DC com PWM.                              |
 | 2x Motores DC + Rodas    | Motores de 5-9V com caixa de redução para locomoção.                     |
 | Tela OLED 128x64 (I2C)   | Display para exibição de dados em tempo real.                            |
