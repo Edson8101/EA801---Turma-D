@@ -11,7 +11,7 @@ Este projeto é uma expansão de um sistema de monitoramento de temperatura já 
 
 A nova versão mantém e aprimora essas funcionalidades, incorporando a leitura de temperatura e umidade externas através do sensor DHT22. Os dados são exibidos no display OLED, que agora permite a alternância entre diferentes telas (dados básicos, históricos de temperatura interna/externa e umidade) por meio dos botões A e B.
 
-Além disso, uma das principais inovações é a integração da conectividade Wi-Fi da Pico W. Isso possibilitou a criação de um servidor HTTP que disponibiliza em tempo real os dados de temperatura (interna e externa) e umidade em uma interface web acessível via navegador em qualquer dispositivo conectado à mesma rede. O projeto utiliza a linguagem C e o SDK oficial da Raspberry Pi, com o processamento de rede sendo executado no Core 1 do RP2040 para otimizar o desempenho.
+Além disso, uma das principais inovação é a integração da conectividade Wi-Fi da Pico W. Isso possibilitou a criação de um servidor HTTP que disponibiliza em tempo real os dados de temperatura (interna e externa) e umidade em uma interface web acessível via navegador em qualquer dispositivo conectado à mesma rede. O projeto utiliza a linguagem C e o SDK oficial da Raspberry Pi, com o processamento de rede sendo executado no Core 1 do RP2040 para otimizar o desempenho.
 
 Simplificadamente, este é um sistema de monitoramento ambiental inteligente que não só exibe dados em um display local e muda de cor conforme a temperatura, mas também permite a navegação entre diferentes visualizações e o acesso remoto aos dados via uma página web.
 
@@ -43,6 +43,19 @@ Simplificadamente, este é um sistema de monitoramento ambiental inteligente que
     *   Permite monitoramento remoto e contínuo via navegador web.
 *   **Multicore Processing:** Utiliza o Core 1 do RP2040 para gerenciar as tarefas de conectividade Wi-Fi e o servidor HTTP, enquanto o Core 0 cuida das leituras dos sensores e da interface física, garantindo paralelismo real.
 *   **Tratamento de Erros do DHT22:** Implementa tratamento para `DHT_RESULT_TIMEOUT` (fiação incorreta, sensor danificado, falta de pull-up) e `DHT_RESULT_BAD_CHECKSUM` (ruído elétrico, alimentação instável), exibindo "---" no OLED e mensagens de debug no console.
+
+## Ferramentas e Tecnologias
+
+*   **Linguagem:** C
+*   **Ambiente de Desenvolvimento:** VS Code
+*   **SDK:** Raspberry Pi Pico C/C++ SDK
+*   **Bibliotecas Utilizadas:**
+    *   `hardware/adc.h` — Para leitura da temperatura interna do RP2040.
+    *   `hardware/pwm.h` — Para controle do LED RGB.
+    *   `hardware/i2c.h` — Para comunicação com o display OLED.
+    *   `ssd1306.h` — Para controle específico do display OLED.
+    *   `dht.h` — Para comunicação com o sensor DHT22.
+    *   `cyw43_arch.h` e `lwip/tcp.h` — Para configuração da conectividade Wi-Fi e implementação do servidor HTTP.
 
 ## Componentes Utilizados
 
@@ -82,4 +95,3 @@ O código foi detalhadamente comentado para facilitar a compreensão e a manuten
 ## Mais Informações
 
 Para mais informações detalhadas sobre o projeto, incluindo a implementação de cada funcionalidade e os princípios técnicos, consulte a [documentação completa do projeto.](https://docs.google.com/document/d/1r-2Qm-_kHL7yd0ubupmXyRhmOGEIDyQKk6v31nm39Eg/edit?tab=t.0)
-
