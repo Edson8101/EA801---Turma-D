@@ -42,3 +42,7 @@ Desenvolver um sistema embarcado capaz de:
 
 ### Software
 - Arquivo main.py
+
+### Fotos do Protótipo
+<img src="images/IMG_20250526_154833488_HDR.jpg" width="400">
+<img src="images/IMG_20250526_154826745.jpg" width="400">
