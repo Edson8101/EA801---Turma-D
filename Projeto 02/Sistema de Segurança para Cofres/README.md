@@ -27,7 +27,7 @@
 
 <p align="center">
     <img 
-    src="https://github.com/JCARNEIROX/EA801/blob/main/Projeto2/imagens/Fluxograma.jpg"
+    src="https://github.com/JCARNEIROX/EA801/blob/main/Projeto2/imagens/fluxograma.jpg"
     alt = "Figura 2">
     ><br>
     <em>Figura 2 - Fluxograma do Projeto.<em>
