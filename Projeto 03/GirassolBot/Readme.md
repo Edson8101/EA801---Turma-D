@@ -1,5 +1,8 @@
 # 🤖 GirassolBot: Robô Seguidor de Luz
 
+![Badge Status](https://img.shields.io/badge/Status-Concluído-success)
+![MicroPython](https://img.shields.io/badge/MicroPython-1.19-blue)
+
 Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores de luminosidade BH1750, um display OLED e controle de motores com o driver HW-166. O sistema é programado em MicroPython para detectar a fonte de luz mais intensa e mover-se em sua direção.
 
 ---
@@ -19,7 +22,11 @@ Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
 
 ## 📸 Demonstração
 
-> _Adicione aqui imagens e um vídeo do robô funcionando._
+<img src="images/IMG_20250626_162245706.jpg" width="400">
+<img src="images/IMG_20250626_162250723.jpg" width="400">
+<img src="images/IMG_20250626_162400869.jpg" width="400">
+[![Assista a explicação no YouTube](https://img.youtube.com/vi/ID_DO_VIDEO/hqdefault.jpg)]([https://www.youtube.com/watch?v=ID_DO_VIDEO](https://youtube.com/shorts/RmvDgT72ZjM?feature=share))
+[![Assista em ação no YouTube](https://img.youtube.com/vi/ID_DO_VIDEO/hqdefault.jpg)]([https://www.youtube.com/watch?v=ID_DO_VIDEO](https://youtube.com/shorts/DCyMCFHWLeQ?feature=share))
 
 ---
 
