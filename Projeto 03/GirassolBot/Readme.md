@@ -25,8 +25,14 @@ Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
 <img src="images/IMG_20250626_162245706.jpg" width="400">
 <img src="images/IMG_20250626_162250723.jpg" width="400">
 <img src="images/IMG_20250626_162400869.jpg" width="400">
-[![Assista a explicação no YouTube](https://img.youtube.com/vi/ID_DO_VIDEO/hqdefault.jpg)]([https://www.youtube.com/watch?v=ID_DO_VIDEO](https://youtube.com/shorts/RmvDgT72ZjM?feature=share))
-[![Assista em ação no YouTube](https://img.youtube.com/vi/ID_DO_VIDEO/hqdefault.jpg)]([https://www.youtube.com/watch?v=ID_DO_VIDEO](https://youtube.com/shorts/DCyMCFHWLeQ?feature=share))
+
+### Explicando o funcionamento:
+
+[![Assista no YouTube](https://img.youtube.com/vi/RmvDgT72ZjM/hqdefault.jpg)](https://youtube.com/shorts/RmvDgT72ZjM)
+
+### GirassolBot em ação
+
+[![Assista no YouTube](https://img.youtube.com/vi/DCyMCFHWLeQ/hqdefault.jpg)](https://youtube.com/shorts/DCyMCFHWLeQ)
 
 ---
 
