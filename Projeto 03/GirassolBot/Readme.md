@@ -22,9 +22,9 @@ Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
 
 ## 📸 Demonstração
 
-<img src="images/IMG_20250626_162245706.jpg" width="400">
-<img src="images/IMG_20250626_162250723.jpg" width="400">
-<img src="images/IMG_20250626_162400869.jpg" width="400">
+<img src="imagens/IMG_20250626_162245706.jpg" width="400">
+<img src="imagens/IMG_20250626_162250723.jpg" width="400">
+<img src="imagens/IMG_20250626_162400869.jpg" width="400">
 
 ### Explicando o funcionamento:
 
