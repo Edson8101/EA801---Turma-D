@@ -1,6 +1,19 @@
-# 🤖 Robô Seguidor de Luz com BH1750, OLED e Driver HW-166
+# 🤖 GirassolBot: Robô Seguidor de Luz
 
-Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores de luminosidade BH1750, um display OLED e controle de motores com o driver HW-166. O sistema é programado em MicroPython para detectar diferenças de luz ambiente e se mover em direção à fonte mais iluminada.
+Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores de luminosidade BH1750, um display OLED e controle de motores com o driver HW-166. O sistema é programado em MicroPython para detectar a fonte de luz mais intensa e mover-se em sua direção.
+
+---
+
+## 🔄 Histórico do Projeto
+
+O projeto original utilizava **dois sensores BH1750** para medir a iluminação à esquerda e à direita do robô. A lógica era simples: mover-se na direção com maior intensidade luminosa, com base na **diferença entre as medições dos dois sensores**.
+
+No entanto, durante os testes, **um dos sensores apresentou mau funcionamento**, resultando em leituras inconsistentes. Para contornar o problema e garantir o funcionamento do robô, o projeto foi **modificado**:
+
+- O código agora **detecta falhas de leitura** e atua de forma segura.
+- Em caso de valores de luz muito baixos ou ausência de leitura, o robô **para automaticamente**.
+
+Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
 
 ---
 
@@ -13,7 +26,7 @@ Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores 
 ## 📦 Componentes Utilizados
 
 - Microcontrolador compatível com MicroPython (ex: Raspberry Pi Pico)
-- 2x Sensores de luminosidade **BH1750**
+- 2x Sensores de luminosidade **BH1750** (apenas 1 em uso funcional)
 - Display OLED 128x64 (I2C)
 - Driver de motores **HW-166**
 - 2x Motores DC
@@ -24,13 +37,13 @@ Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores 
 
 ## ⚙️ Funcionalidades
 
-- Leitura de luminosidade dos sensores BH1750 via I2C
-- Exibição de mensagens no display OLED
-- Controle de dois motores DC via PWM
+- Leitura de luminosidade via I2C
+- Exibição de status no display OLED
+- Controle de dois motores DC com PWM
 - Botão A: liga/desliga o robô
 - Botão B: inverte a direção dos motores
-- Movimento baseado em detecção da fonte de luz mais intensa
-- Parada automática em ambientes escuros
+- Movimento baseado na fonte de luz mais forte
+- Parada automática em ambientes escuros ou falha de sensor
 
 ---
 
@@ -46,7 +59,7 @@ stateDiagram-v2
     Ligado --> Frente : Luz esquerda ≈ Luz direita
     Ligado --> Esquerda : Luz esquerda > Luz direita + THRESHOLD
     Ligado --> Direita : Luz direita > Luz esquerda + THRESHOLD
-    Ligado --> Parado : Ambiente escuro
+    Ligado --> Parado : Ambiente escuro ou erro de leitura
 
     Frente --> Ligado
     Esquerda --> Ligado
