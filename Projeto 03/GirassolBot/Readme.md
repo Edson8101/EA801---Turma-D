@@ -54,7 +54,7 @@ A nova versão do projeto está no arquivo `main.py` e traz as seguintes melhori
 
 ## 📦 Componentes Utilizados
 
-- Placa microcontroladora compatível com MicroPython (ex: Raspberry Pi Pico)
+- Placa microcontroladora compatível com MicroPython (Raspberry Pi Pico W)
 - 1x Sensor de luminosidade **BH1750**
 - Display OLED 128x64 (I2C)
 - Driver de motor **HW-166**
