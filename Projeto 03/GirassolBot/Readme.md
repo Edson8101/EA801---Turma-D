@@ -1,27 +1,54 @@
-## 🧰 Materiais
-| Componente               | Descrição                                                                 |
-|--------------------------|---------------------------------------------------------------------------|
-| BitDogLab (RPi Pico)     | Placa controladora baseada no Raspberry Pi Pico.                         |
-| 2x Sensor BH1750            | Sensor digital de luminosidade (I2C, 1-65535 lux).                       |
-| Driver L298N             | Driver para controle de motores DC com PWM.                              |
-| 2x Motores DC + Rodas    | Motores de 5-9V com caixa de redução para locomoção.                     |
-| Tela OLED 128x64 (I2C)   | Display para exibição de dados em tempo real.                            |
-| Bateria 9V               | Fonte de alimentação portátil para motores e eletrônicos.                |
+# 🤖 Robô Seguidor de Luz com BH1750, OLED e Driver HW-166
+
+Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores de luminosidade BH1750, um display OLED e controle de motores com o driver HW-166. O sistema é programado em MicroPython para detectar diferenças de luz ambiente e se mover em direção à fonte mais iluminada.
 
 ---
 
-## 🛠️ Estrutura do Projeto
-### Hardware
-1. **Sensoriamento:**
-   - **BH1750:** Conectado via I2C (GP0: SDA, GP1: SCL).
-2. **Atuação:**
-   - **Motores DC:** Controlados pelo driver L298N (GP2-GP7 para direção e PWM).
-3. **Interface:**
-   - **OLED:** Compartilha o barramento I2C com o BH1750.
+## 📸 Demonstração
 
-### Software
-- Arquivo main.py
+> _Adicione aqui imagens e um vídeo do robô funcionando._
 
-### Fotos do Protótipo
-<img src="images/" width="400">
-<img src="images/" width="400">
+---
+
+## 📦 Componentes Utilizados
+
+- Microcontrolador compatível com MicroPython (ex: Raspberry Pi Pico)
+- 2x Sensores de luminosidade **BH1750**
+- Display OLED 128x64 (I2C)
+- Driver de motores **HW-166**
+- 2x Motores DC
+- 2x Botões (controle de estado e inversão)
+- Fios jumpers e fonte de alimentação apropriada
+
+---
+
+## ⚙️ Funcionalidades
+
+- Leitura de luminosidade dos sensores BH1750 via I2C
+- Exibição de mensagens no display OLED
+- Controle de dois motores DC via PWM
+- Botão A: liga/desliga o robô
+- Botão B: inverte a direção dos motores
+- Movimento baseado em detecção da fonte de luz mais intensa
+- Parada automática em ambientes escuros
+
+---
+
+## 🧠 Máquina de Estados
+
+```mermaid
+stateDiagram-v2
+    [*] --> Desligado
+
+    Desligado --> Ligado : Botão A pressionado
+    Ligado --> Desligado : Botão A pressionado
+
+    Ligado --> Frente : Luz esquerda ≈ Luz direita
+    Ligado --> Esquerda : Luz esquerda > Luz direita + THRESHOLD
+    Ligado --> Direita : Luz direita > Luz esquerda + THRESHOLD
+    Ligado --> Parado : Ambiente escuro
+
+    Frente --> Ligado
+    Esquerda --> Ligado
+    Direita --> Ligado
+    Parado --> Ligado
