@@ -3,20 +3,36 @@
 ![Badge Status](https://img.shields.io/badge/Status-Concluído-success)
 ![MicroPython](https://img.shields.io/badge/MicroPython-1.19-blue)
 
-Este projeto implementa um robô autônomo seguidor de luz, baseado em sensores de luminosidade BH1750, um display OLED e controle de motores com o driver HW-166. O sistema é programado em MicroPython para detectar a fonte de luz mais intensa e mover-se em sua direção.
+Este projeto implementa um robô autônomo seguidor de luz, usando um sensor de luminosidade **BH1750**, um display **OLED 128x64** e controle de motores via driver **HW-166**. A lógica é programada em **MicroPython**.
 
 ---
 
-## 🔄 Histórico do Projeto
+## 🛠️ Projeto Original (followlux.py)
 
-O projeto original utilizava **dois sensores BH1750** para medir a iluminação à esquerda e à direita do robô. A lógica era simples: mover-se na direção com maior intensidade luminosa, com base na **diferença entre as medições dos dois sensores**.
+Inicialmente, o projeto utilizava **dois sensores BH1750**, posicionados à esquerda e à direita do robô, com a lógica de seguir a direção com maior luminosidade. No entanto, um dos sensores apresentou defeito, causando leituras inválidas.
 
-No entanto, durante os testes, **um dos sensores apresentou mau funcionamento**, resultando em leituras inconsistentes. Para contornar o problema e garantir o funcionamento do robô, o projeto foi **modificado**:
+Em vez de substituir o sensor, optamos por adaptar o projeto para **funcionar com apenas um BH1750** e implementar um novo comportamento baseado em **giro 360° + limiar de luz**.
 
-- O código agora **detecta falhas de leitura** e atua de forma segura.
-- Em caso de valores de luz muito baixos ou ausência de leitura, o robô **para automaticamente**.
+O código original está preservado no arquivo `followlux.py` como referência.
 
-Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
+---
+
+## ✅ Versão Atual (main.py)
+
+A nova versão do projeto está no arquivo `main.py` e traz as seguintes melhorias:
+
+### ⚙️ Funcionalidades principais:
+
+- **Leitura de luminosidade com 1 BH1750** (via I2C)
+- **Display OLED** exibe mensagens de status e valores de luminosidade
+- Controle de motores com **driver HW-166**
+- **Giro de 360° automático** para buscar direção com maior luminosidade
+- **Botão A alterna entre 4 modos:**
+  1. **Desligado**
+  2. **Seguir luz acima de 100 lux**
+  3. **Seguir luz acima de 200 lux**
+  4. **Seguir luz acima de 500 lux**
+- **Botão B inverte a direção** dos motores
 
 ---
 
@@ -38,13 +54,15 @@ Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
 
 ## 📦 Componentes Utilizados
 
-- Microcontrolador compatível com MicroPython (ex: Raspberry Pi Pico)
-- 2x Sensores de luminosidade **BH1750** (apenas 1 em uso funcional)
+- Placa microcontroladora compatível com MicroPython (ex: Raspberry Pi Pico)
+- 1x Sensor de luminosidade **BH1750**
 - Display OLED 128x64 (I2C)
-- Driver de motores **HW-166**
+- Driver de motor **HW-166**
 - 2x Motores DC
-- 2x Botões (controle de estado e inversão)
-- Fios jumpers e fonte de alimentação apropriada
+- 2x Botões (controle de modo e inversão)
+- Fios, protoboard e fonte de alimentação
+
+---
 
 ---
 
@@ -60,21 +78,20 @@ Essa modificação garantiu a robustez do sistema mesmo com falhas de hardware.
 
 ---
 
-## 🧠 Máquina de Estados
+## 🔄 Máquina de Estados Simplificada
 
 ```mermaid
 stateDiagram-v2
     [*] --> Desligado
 
-    Desligado --> Ligado : Botão A pressionado
-    Ligado --> Desligado : Botão A pressionado
+    Desligado --> Seguir100 : Botão A
+    Seguir100 --> Seguir200 : Botão A
+    Seguir200 --> Seguir500 : Botão A
+    Seguir500 --> Desligado : Botão A
 
-    Ligado --> Frente : Luz esquerda ≈ Luz direita
-    Ligado --> Esquerda : Luz esquerda > Luz direita + THRESHOLD
-    Ligado --> Direita : Luz direita > Luz esquerda + THRESHOLD
-    Ligado --> Parado : Ambiente escuro ou erro de leitura
+    Seguir100 --> Procurando : Luz < 100
+    Seguir200 --> Procurando : Luz < 200
+    Seguir500 --> Procurando : Luz < 500
 
-    Frente --> Ligado
-    Esquerda --> Ligado
-    Direita --> Ligado
-    Parado --> Ligado
+    Procurando --> Seguir : Luz >= limiar
+    Seguir --> Procurando : Luz < limiar
