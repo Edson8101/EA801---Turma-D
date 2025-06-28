@@ -4,188 +4,156 @@ import ssd1306
 
 # --- Configuração do I2C para BH1750 ---
 i2c = I2C(1, scl=Pin(3), sda=Pin(2))
-
-addr_left = 0x23  # BH1750 com ADO=GND
-addr_right = 0x5C  # BH1750 com ADO=VCC
+BH1750_ADDR = 0x23  # Somente 1 sensor em uso
 
 def read_lux(i2c, addr):
     try:
-        i2c.writeto(addr, b'\x10')  # modo de medição contínua
-        time.sleep(0.18)  # tempo para medição (180ms)
+        i2c.writeto(addr, b'\x10')  # Medição contínua
+        time.sleep(0.18)
         data = i2c.readfrom(addr, 2)
         lux = ((data[0] << 8) | data[1]) / 1.2
         return lux
-    except Exception as e:
-        print(f"Erro no sensor {hex(addr)}:", e)
+    except:
         return -1
 
-# --- Configuração do I2C para a tela OLED (128x64) ---
-oled_i2c = SoftI2C(scl=Pin(15), sda=Pin(14))  # Ajuste os pinos conforme necessário
+# --- OLED ---
+oled_i2c = SoftI2C(scl=Pin(15), sda=Pin(14))
 oled = ssd1306.SSD1306_I2C(128, 64, oled_i2c)
 oled.fill(0)
 
-# --- Configuração dos pinos do driver HW-166 ---
-# Motor A
+# --- Motores ---
 ain1 = Pin(4, Pin.OUT)
 ain2 = Pin(9, Pin.OUT)
 pwma = PWM(Pin(10))
 pwma.freq(1000)
 
-# Motor B
 bin1 = Pin(19, Pin.OUT)
 bin2 = Pin(18, Pin.OUT)
 pwmb = PWM(Pin(16))
 pwmb.freq(1000)
 
-# Standby driver
 stby = Pin(20, Pin.OUT)
 
-# Botões
-botao_a = Pin(5, Pin.IN, Pin.PULL_UP)  # Botão A para ligar/desligar
-botao_b = Pin(6, Pin.IN, Pin.PULL_UP)  # Botão B para inverter os motores
+# --- Botões ---
+botao_a = Pin(5, Pin.IN, Pin.PULL_UP)
+botao_b = Pin(6, Pin.IN, Pin.PULL_UP)
 
-# Estado do robô (inicialmente ligado)
-robo_ligado = True
-invertido = False  # Estado para inversão dos motores
+# --- Estado do robô ---
+modos = ["Desligado", "Seguir 100+", "Seguir 200+", "Seguir 500+"]
+modo_index = 0  # começa desligado
+invertido = False
+thresholds = [None, 100, 200, 500]
 
-# Funções auxiliares para controle do motor
+VEL_MAX = 30000
 
-def motor_a_forward(speed):
-    ain1.value(1)
-    ain2.value(0)
-    pwma.duty_u16(speed)
+# --- Funções de motor ---
+def motor_a_forward(speed): ain1.value(1); ain2.value(0); pwma.duty_u16(speed)
+def motor_a_backward(speed): ain1.value(0); ain2.value(1); pwma.duty_u16(speed)
+def motor_a_stop(): pwma.duty_u16(0); ain1.value(0); ain2.value(0)
 
-def motor_a_backward(speed):
-    ain1.value(0)
-    ain2.value(1)
-    pwma.duty_u16(speed)
+def motor_b_forward(speed): bin1.value(1); bin2.value(0); pwmb.duty_u16(speed)
+def motor_b_backward(speed): bin1.value(0); bin2.value(1); pwmb.duty_u16(speed)
+def motor_b_stop(): pwmb.duty_u16(0); bin1.value(0); bin2.value(0)
 
-def motor_a_stop():
-    pwma.duty_u16(0)
-    ain1.value(0)
-    ain2.value(0)
+def motores_parar():
+    motor_a_stop()
+    motor_b_stop()
 
-def motor_b_forward(speed):
-    bin1.value(1)
-    bin2.value(0)
-    pwmb.duty_u16(speed)
+# --- Tela OLED ---
+def exibir_mensagem(msg, linha=0):
+    oled.fill_rect(0, linha * 10, 128, 10, 0)
+    oled.text(msg, 0, linha * 10)
+    oled.show()
 
-def motor_b_backward(speed):
-    bin1.value(0)
-    bin2.value(1)
-    pwmb.duty_u16(speed)
+def atualizar_estado_oled():
+    oled.fill(0)
+    exibir_mensagem("Modo:", 0)
+    exibir_mensagem(modos[modo_index], 1)
 
-def motor_b_stop():
-    pwmb.duty_u16(0)
-    bin1.value(0)
-    bin2.value(0)
+# --- Giro 360° ---
+def giro_360_encontrar_luz():
+    print("Iniciando varredura 360°")
+    maior_lux = -1
+    melhor_direcao = None
 
-# Função para alternar o estado do robô
-def alternar_robo():
-    global robo_ligado
-    robo_ligado = not robo_ligado
-    
-    limpar_linhas(0, 1)
-    
-    if robo_ligado:
-        stby.value(1)  # Liga o robô
-        print("Robô ligado")
-        exibir_mensagem("ROBO LIGADO", 0, limpar_linha=False)  # Linha 0
-        exibir_mensagem("Pronto p/ operar", 1, limpar_linha=False)  # Linha 1
+    for i in range(4):  # 4 etapas de 90 graus
+        motor_a_forward(VEL_MAX)
+        motor_b_backward(VEL_MAX)
+        time.sleep(0.6)  # Pequeno giro
+
+        lux = read_lux(i2c, BH1750_ADDR)
+        print(f"Leitura {i+1}: {lux:.1f} Lux")
+
+        if lux > maior_lux:
+            maior_lux = lux
+            melhor_direcao = i
+
+        motores_parar()
+        time.sleep(0.2)
+
+    print(f"Maior luz encontrada: {maior_lux:.1f} Lux em direção {melhor_direcao}")
+    return maior_lux
+
+# --- Alternar modo com botão A ---
+def alternar_modo():
+    global modo_index
+    modo_index = (modo_index + 1) % len(modos)
+    atualizar_estado_oled()
+    if modo_index == 0:
+        stby.value(0)
+        motores_parar()
+        print("Robô desligado.")
     else:
-        motor_a_stop()  # Para os motores
-        motor_b_stop()
-        stby.value(0)  # Desliga o robô
-        print("Robô desligado")
-        exibir_mensagem("ROBO DESLIGADO", 0, limpar_linha=False)  # Linha 0
-        exibir_mensagem("Aguardando...", 1, limpar_linha=False)  # Linha 1
+        stby.value(1)
+        print(f"Modo ativo: {modos[modo_index]}")
 
-# Função para inverter a direção dos motores
+# --- Inverter motores com botão B ---
 def inverter_motores():
     global invertido
     invertido = not invertido
-    print("Inversão de direção dos motores!")
+    print("Inversão de direção!")
 
-# Função para exibir mensagens na tela OLED
-def exibir_mensagem(mensagem, linha=0, limpar_linha=True):
-    if limpar_linha:
-        oled.fill_rect(0, linha*10, 128, 10, 0)  # Limpa apenas a linha
-    oled.text(mensagem, 0, linha*10)
-    oled.show()
-
-# Função para limpar múltiplas linhas
-def limpar_linhas(*linhas):
-    for linha in linhas:
-        oled.fill_rect(0, linha*10, 128, 10, 0)
-    oled.show()
-    
-# --- Parâmetros do robô ---
-VEL_MAX = 30000  # velocidade máxima PWM (0 a 65535)
-
-THRESHOLD_DIFF = 15.0  # Lux, diferença mínima para virar
-THRESHOLD_LOW = 10.0   # Lux, luz baixa (ambiente escuro)
+# --- Inicialização ---
+atualizar_estado_oled()
+ultimo_estado_a = botao_a.value()
+ultimo_estado_b = botao_b.value()
 
 # --- Loop principal ---
 while True:
-    # Verifica se o botão A foi pressionado (ligar/desligar)
-    if botao_a.value() == 0:  # Botão A pressionado
-        alternar_robo()
-        #exibir_mensagem("Ligando/Desl Robô")  # Exibe mensagem de ação
-        time.sleep(1)  # Debounce para evitar múltiplos acionamentos
+    estado_a = botao_a.value()
+    estado_b = botao_b.value()
 
-    # Verifica se o botão B foi pressionado (inverter motores)
-    if botao_b.value() == 0:  # Botão B pressionado
+    if estado_a == 0 and ultimo_estado_a == 1:
+        alternar_modo()
+        time.sleep(0.3)
+    ultimo_estado_a = estado_a
+
+    if estado_b == 0 and ultimo_estado_b == 1:
         inverter_motores()
-        exibir_mensagem("Invertendo Motores")  # Exibe mensagem de inversão
-        time.sleep(1)  # Debounce para evitar múltiplos acionamentos
+        exibir_mensagem("Invertendo", 2)
+        time.sleep(0.3)
+    ultimo_estado_b = estado_b
 
-    # Se o robô estiver ligado, continua o funcionamento normal
-    if robo_ligado:
-        lux_left = read_lux(i2c, addr_left)
-        lux_right = read_lux(i2c, addr_right)
-        print(f"Luz esquerda: {lux_left:.1f} Lux | direita: {lux_right:.1f} Lux")
+    if modo_index > 0:
+        limiar = thresholds[modo_index]
+        lux = read_lux(i2c, BH1750_ADDR)
+        exibir_mensagem(f"Luz: {lux:.1f} Lux", 3)
 
-        # Se ambos baixos → sem luz ou ambiente escuro
-        if lux_left < THRESHOLD_LOW and lux_right < THRESHOLD_LOW:
-            # Parar ou girar para buscar luz
-            motor_a_stop()
-            motor_b_stop()
-            exibir_mensagem("Ambiente Escuro!")  # Mensagem de ambiente escuro
-            print("Ambiente escuro, parando.")
-            time.sleep(0.5)
-            continue
-
-        diff = lux_left - lux_right
-
-        if abs(diff) < THRESHOLD_DIFF:
-            # Luz equilibrada, seguir em frente
+        if lux >= limiar:
+            # andar para frente
             if invertido:
                 motor_a_backward(VEL_MAX)
                 motor_b_backward(VEL_MAX)
             else:
                 motor_a_forward(VEL_MAX)
                 motor_b_forward(VEL_MAX)
-            exibir_mensagem("Seguindo em Frente...")  # Mensagem de movimento para frente
-            print("Seguindo em frente.")
-        elif diff > 0:
-            # Luz mais forte na esquerda → virar esquerda
-            if invertido:
-                motor_a_stop()
-                motor_b_backward(VEL_MAX)
-            else:
-                motor_a_stop()
-                motor_b_forward(VEL_MAX)
-            exibir_mensagem("Virando para Esquerda")  # Mensagem de virada à esquerda
-            print("Virando para esquerda.")
+            exibir_mensagem("Seguindo Luz", 2)
         else:
-            # Luz mais forte na direita → virar direita
-            if invertido:
-                motor_a_forward(VEL_MAX)
-                motor_b_stop()
-            else:
-                motor_a_forward(VEL_MAX)
-                motor_b_stop()
-            exibir_mensagem("Virando para Direita")  # Mensagem de virada à direita
-            print("Virando para direita.")
+            motores_parar()
+            exibir_mensagem("Procurando Luz", 2)
+            maior = giro_360_encontrar_luz()
+            exibir_mensagem(f"Max: {maior:.1f}", 2)
+    else:
+        motores_parar()
 
     time.sleep(0.1)
